@@ -8,8 +8,10 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
 from budget.decorators import signin_required
 from django.utils.decorators import method_decorator
+from django.views.decorators.cache import never_cache
 # Create your views here.
-@method_decorator(signin_required,name='dispatch')
+decs=[signin_required,never_cache]
+@method_decorator(decs,name='dispatch')
 class ExpenseCreateView(View):
     def get(self,request,*args,**kwargs):
         form_instance=ExpenseForm()
@@ -25,7 +27,7 @@ class ExpenseCreateView(View):
              messages.error(request,'failed to add')
              return render(request,'expensecreate.html',{'form':form_instance})
 
-@method_decorator(signin_required,name='dispatch')
+@method_decorator(decs,name='dispatch')
 class ExpenseListView(View):
     def get(self,request,*args,**kwargs):
 
@@ -44,7 +46,7 @@ class ExpenseListView(View):
        
         return render(request,'expenselist.html',{'expenses':qs,"selected":selected_category})
 
-@method_decorator(signin_required,name='dispatch')
+@method_decorator(decs,name='dispatch')
 class ExpenseUpdateView(View):
     def get(self,request,*args,**kwargs):
 
@@ -75,7 +77,7 @@ class ExpenseUpdateView(View):
              messages.error(request,'failed to update')
              return render(request,'expenseedit.html',{'form':form_instance})
 
-@method_decorator(signin_required,name='dispatch')
+@method_decorator(decs,name='dispatch')
 class ExpenseDeleteView(View):
     def get(self,request,*args,**kwargs):
 
@@ -84,7 +86,7 @@ class ExpenseDeleteView(View):
         messages.success(request,'deleted successfully')
         return redirect('expense-list')
 
-@method_decorator(signin_required,name='dispatch')
+@method_decorator(decs,name='dispatch')
 class ExpenseSummary(View):
     def get(self,request,*args,**kwargs):
 
@@ -138,7 +140,7 @@ class SignInView(View):
                 return redirect('expense-list')
         return render(request,self.template_name,{'form':form_instance})
 
-@method_decorator(signin_required,name='dispatch')
+@method_decorator(decs,name='dispatch')
 class SignOutView(View):
     def get(self,request,*args,**kwargs):
         logout(request)
