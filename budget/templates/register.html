@@ -16,12 +16,30 @@
   </head>
   <body>
     <div class="container mt-5">
-        <form action="" method="post" class="border border-2 shadow p-3 mt-4">
+
+      <div class="card mb-3" style="max-width: 70%;">
+        <div class="row g-0">
+          <div class="col-md-4">
+            <img src="{%static 'images/register.png'%}" class=" rounded-start" alt="..." style="height: 300px; width: 100%;">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <form action="" method="post">
+                {%csrf_token%}
+              <h3 class="card-title text-center">User Registration</h3>
+              {{form}}
+              <button type="submit" class="btn btn-secondary form-control mt-3">Register</button>
+            </form>
+            </div>
+          </div>
+        </div>
+      </div>
+        <!-- <form action="" method="post" class="border border-2 shadow p-3 mt-4">
             {%csrf_token%}
             <h1>User Registration</h1>
             {{form}}
             <button type="submit" class="btn btn-secondary form-control mt-3">Register</button>
-        </form>
+        </form> -->
     </div>
   </body>
 </html>

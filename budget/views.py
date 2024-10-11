@@ -105,7 +105,7 @@ class ExpenseSummary(View):
             "category_amount_sum":amount_sum
             
         }
-        return render(request,"expensesummary.html",context)
+        return render(request,"dashboard.html",context)
 
 class SignUpView(View):
     template_name='register.html'
@@ -137,7 +137,7 @@ class SignInView(View):
             user_obj=authenticate(request,username=uname,password=pwd)
             if user_obj:
                 login(request,user_obj)
-                return redirect('expense-list')
+                return redirect('expense-summary')
         return render(request,self.template_name,{'form':form_instance})
 
 @method_decorator(decs,name='dispatch')
@@ -145,5 +145,10 @@ class SignOutView(View):
     def get(self,request,*args,**kwargs):
         logout(request)
         return redirect('signin')
-    
+@method_decorator(decs,name='dispatch')
+class DashBoardView(View):
+    template_name='dashboard.html'
+    def get(self,request,*args,**kwargs):
+       
 
+        return render(request,self.template_name)
